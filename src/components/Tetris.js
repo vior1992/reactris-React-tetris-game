@@ -1,19 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { createStage } from '../helpers';
+
 import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
 
-const Tetris = props => {
+const Tetris = props => {    
     return (
         <div>
-            <Stage />
+            <Stage stage={createStage()} />
             <aside>
                 <div>
-                    <Display text='Score'/>
-                    <Display text='Rows'/>
-                    <Display text='Level'/>
+                    <Display text='Score' />
+                    <Display text='Rows' />
+                    <Display text='Level' />
                 </div>
                 <StartButton />
             </aside>
