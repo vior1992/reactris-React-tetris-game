@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { StyledStage } from './styles/StyledStage';
 
 import Cell from './Cell';
 
@@ -9,9 +10,9 @@ const Stage = ({ stage }) => {
     };
 
     return (
-        <div>
+        <StyledStage width={stage[0].length} height={stage.length}>
             {rows()}
-        </div>
+        </StyledStage>
     );
 };
 

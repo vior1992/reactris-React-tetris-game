@@ -7,9 +7,7 @@ const Cell = ({ type }) => {
     const color = TETROMINOS[type].color;
     
     return (
-        <StyledCell type={type} color={color} >
-            cell
-        </StyledCell>
+        <StyledCell type={type} color={color} />
     );
 };
 
