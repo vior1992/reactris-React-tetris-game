@@ -14,7 +14,7 @@ const Tetris = props => {
     const [ dropTime, setDropTime ] = useState(null);
     const [ gameOver, setGameOver ] = useState(false);
 
-    const [ player, updatePlayerPos, resetPlayer] = usePlayer();
+    const [ player, updatePlayerPos, resetPlayer, playerRotate ] = usePlayer();
     const [ stage, setStage ] = useStage(player, resetPlayer);
 
     const movePlayer = dir => {
@@ -52,6 +52,7 @@ const Tetris = props => {
         if (keyCode === 37) return movePlayer(-1);
         if (keyCode === 39) return movePlayer(1);
         if (keyCode === 40) return dropPlayer();
+        if (keyCode === 38) playerRotate(stage, 1);
     };
 
     return (
@@ -79,3 +80,5 @@ const Tetris = props => {
 // };
 
 export default Tetris;
+
+// 1.50.47
