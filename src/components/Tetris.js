@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
 import { createStage, checkCollision } from '../helpers';
+import { useInterval } from '../customHooks/useInterval';
 import { usePlayer } from '../customHooks/usePlayer';
 import { useStage } from '../customHooks/useStage';
 
@@ -26,6 +27,7 @@ const Tetris = props => {
     const startGame = () => {        
         setStage(createStage());
         resetPlayer();
+        setDropTime(1000);
         setGameOver(false);
     };
 
@@ -42,7 +44,16 @@ const Tetris = props => {
         } 
     };
 
+    const keyUp = ({ keyCode }) => {
+        if(!gameOver) {
+            if (keyCode === 40) {
+                setDropTime(1000);
+            }
+        }
+    };
+
     const dropPlayer = () => {
+        setDropTime(null);
         drop()
     };
 
@@ -55,8 +66,13 @@ const Tetris = props => {
         if (keyCode === 38) playerRotate(stage, 1);
     };
 
+    useInterval(() => {
+        drop();
+
+    }, dropTime);
+
     return (
-        <StyledTetrisWrapper role="button"  tabIndex="0"  onKeyDown={e => move(e)}>
+        <StyledTetrisWrapper role="button"  tabIndex="0"  onKeyDown={e => move(e)} onKeyUp={keyUp}>
             <StyledTetris>
                 <Stage stage={stage} />
                 <aside>
