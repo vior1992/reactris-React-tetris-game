@@ -80,5 +80,3 @@ const Tetris = props => {
 // };
 
 export default Tetris;
-
-// 1.50.47
