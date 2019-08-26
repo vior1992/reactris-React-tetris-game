@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
 
 import { createStage, checkCollision } from '../helpers';
 import { useInterval } from '../customHooks/useInterval';
 import { usePlayer } from '../customHooks/usePlayer';
 import { useStage } from '../customHooks/useStage';
+import { useGameStatus } from '../customHooks/useGameStatus';
 
 import Stage from './Stage';
 import Display from './Display';
 import StartButton from './StartButton';
 
-const Tetris = props => {
-    const [ dropTime, setDropTime ] = useState(null);
-    const [ gameOver, setGameOver ] = useState(false);
+const Tetris = () => {
+    const [dropTime, setDropTime] = useState(null);
+    const [gameOver, setGameOver] = useState(false);
 
-    const [ player, updatePlayerPos, resetPlayer, playerRotate ] = usePlayer();
-    const [ stage, setStage ] = useStage(player, resetPlayer);
+    const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
+    const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
+    const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(rowsCleared);
 
     const movePlayer = dir => {
         if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -29,9 +30,17 @@ const Tetris = props => {
         resetPlayer();
         setDropTime(1000);
         setGameOver(false);
+        setScore(0);
+        setRows(0);
+        setLevel(0);
     };
 
     const drop = () => {
+        if (rows > (level + 1) * 10) {
+            setLevel(prev => prev + 1);
+            setDropTime(1000 / (level + 1) + 200);
+        }
+
         if (!checkCollision(player, stage, { x: 0, y: 1 })) {
             updatePlayerPos({ x: 0, y: 1, colldided: false });
         } else {
@@ -47,7 +56,9 @@ const Tetris = props => {
     const keyUp = ({ keyCode }) => {
         if(!gameOver) {
             if (keyCode === 40) {
-                setDropTime(1000);
+                console.log('interval on');
+                
+                setDropTime(1000 / (level + 1) + 200);
             }
         }
     };
@@ -79,9 +90,9 @@ const Tetris = props => {
                     {gameOver 
                         ? <Display gameOver={gameOver} text="Game over" />
                         : <div>
-                            <Display text='Score' />
-                            <Display text='Rows' />
-                            <Display text='Level' />
+                            <Display text={`Score: ${score}`} />
+                            <Display text={`Rows: ${rows}`} />
+                            <Display text={`Level: ${level}`} />
                         </div>
                     }
                     <StartButton callback={startGame}/>
@@ -90,9 +101,5 @@ const Tetris = props => {
         </StyledTetrisWrapper>
     );
 };
-
-// Tetris.propTypes = {
-    
-// };
 
 export default Tetris;

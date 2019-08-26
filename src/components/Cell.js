@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { StyledCell } from './styles/StyledCell';
 import { TETROMINOS } from '../tetrominos';
@@ -15,4 +15,4 @@ Cell.propTypes = {
     type: PropTypes.string.isRequired
 };
 
-export default Cell;
+export default memo(Cell);
