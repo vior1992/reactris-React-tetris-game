@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
+import { StyledCell } from './styles/StyledCell';
+import { TETROMINOS } from '../tetrominos';
 
 const Cell = ({ type }) => {
+    const color = TETROMINOS[type].color;
+    
     return (
-        <div>
-            cell
-        </div>
+        <StyledCell type={type} color={color} />
     );
 };
 
@@ -13,4 +15,4 @@ Cell.propTypes = {
     type: PropTypes.string.isRequired
 };
 
-export default Cell;
+export default memo(Cell);

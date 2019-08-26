@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Display = ({ gameOver, text}) => {
+import { StyledDisplay } from './styles/StyledDisplay';
+
+const Display = ({ gameOver, text }) => {
     return (
-        <div>
+        <StyledDisplay gameOver={gameOver}>
             {text}
-        </div>
+        </StyledDisplay>
     );
 };
 
